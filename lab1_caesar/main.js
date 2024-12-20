@@ -16,28 +16,28 @@ function caesar() {
                     "юь", "яа", "яё", "яо", "яъ", "яы", "яь", "яэ",
                     "жы", "жя", "жю", "хы", "хя", "хё", "хю", "ця", "цё", "цю", "що","щы", "щя", "щю"];
     
-    const key = 12;
 
-    function toEncodeText(text) {
+
+    function toEncodeText(text, key) {
         let textResult = '';
-        for (i = 0; i < key; i++) {
+        for (let i = 0; i < key; i++) {
             let j = i;
             while (j < text.length) {
                 textResult += text[j];
-                j += key;
+                j = j + key;
             }
         }
         return textResult;
     }
 
-    function toDecodeText(text) {
+    function toDecodeText(text, key) {
         let textMatr = [];
         let strokeLen = Math.floor(text.length / key);
         let tail = text.length % key;
         
         let startIndex = 0;
 
-        for (i = 0; i < key; i++) {
+        for (let i = 0; i < key; i++) {
             let len = strokeLen;
             if (tail > 0) {
                 len ++;
@@ -66,7 +66,7 @@ function caesar() {
             
             let startIndex = 0;
 
-            for (i = 0; i < hackedKey; i++) {
+            for (let i = 0; i < hackedKey; i++) {
                 let len = strokeLen;
                 if (tail > 0) {
                     len ++;
@@ -103,11 +103,13 @@ function caesar() {
     
     const areaOfOrigText = document.querySelector('#originalText');
     const areaOfResultText = document.querySelector('#resultText');
+    const areaOfKey = document.querySelector('#key');
     
     encodeButton.addEventListener('click', () => {
         var origText = areaOfOrigText.value;
-        if(origText) {
-            const resultText = toEncodeText(origText);
+        var key = Number(areaOfKey.value);
+        if(origText && key) {
+            const resultText = toEncodeText(origText, key);
             areaOfResultText.innerHTML = '';
             areaOfResultText.innerHTML = resultText;
         }
@@ -115,8 +117,9 @@ function caesar() {
     
     decodeButton.addEventListener('click', () => {
         var text = areaOfOrigText.value;
-        if(text) {
-            const resultText = toDecodeText(text);
+        var key = Number(areaOfKey.value);
+        if(text && key) {
+            const resultText = toDecodeText(text, key);
             areaOfResultText.innerHTML = '';
             areaOfResultText.innerHTML = resultText;
         }
